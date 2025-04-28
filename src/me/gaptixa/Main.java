@@ -1,5 +1,7 @@
 package me.gaptixa;
 
+import java.util.Scanner;
+
 class Player {
 
     String nama;
@@ -79,35 +81,112 @@ class Armor {
     }
 }
 
-public class Main {
+public class LatihanMethod1 {
 
     public static void main(String[] args) {
 
-        // PLAYEr
-        Player player = new Player("Gaptixa", 10010);
-        Player player2 = new Player("Cheviazt", 0);
+        boolean masih = true;
+        boolean created = false;
+        Scanner scan = new Scanner(System.in);
+        Player player = null;
+        Weapon senjata = null;
+        Armor armor = null;
+
+        while (masih){
+            System.out.print("Masukkan perintah: ");
+            String cmd = scan.nextLine();
+
+            switch (cmd) {
+                case "playercreate":
+                        created = true;
+                        System.err.print("Masukkan nama player: ");
+                        String name = scan.nextLine();
+                        System.err.print("Masukkan ID player: ");
+                        int id = scan.nextInt();
+                        player = createPlayer(name, id);
+                        System.out.println("Player berhasil dibuat!");
+                    break;
+                case "showstats":
+                        if(!(player == null)){
+                            showStats(player);
+                        } else {
+                            System.out.println("Player belum ada");
+                        }
+                    break;
+                case "exit":
+                        masih = false;
+                    break;
+                case "createweapon":
+                        if((senjata == null)){
+                            System.err.print("Masukkan nama senjata: ");
+                            String namaSenjata = scan.nextLine();
+                            System.err.print("Masukkan Damage senjata: ");
+                            int damageSenjata = scan.nextInt();
+                            senjata = createWeapon(namaSenjata, damageSenjata);
+                            System.out.println("Senjata berhasil dibuat");
+                        } else {
+                            System.out.println("Senjata sudah ada");
+                        }
+                    break;
+                case "createarmor":
+                        if((armor == null)){
+                            System.err.print("Masukkan nama senjata: ");
+                            String namaArmor = scan.nextLine();
+                            System.err.print("Masukkan defense armor: ");
+                            int defenseArmor = scan.nextInt();
+                            armor = createArmor(namaArmor, defenseArmor);
+                            System.out.println("Armor berhasil dibuat");
+                        } else {
+                            System.out.println("Armor sudah ada");
+                        }
+                    break;
+                case "addarmor":
+                    if(!(armor == null)){
+                        if(!(armor == null)){
+                            addArmor(player, armor);
+                            System.out.println("berhasil menambahkan armor ke player");
+                        }
+                    } else {
+                        System.out.println("Armor belum ada");
+                    }
+                    break;
+                case "addweapon":
+                    if(!(senjata == null)){
+                        if(!(senjata == null)){
+                            addWeapon(player, senjata);
+                            System.out.println("berhasil menambahkan senjata ke player");
+                        }
+                    } else {
+                        System.out.println("Senjata belum ada");
+                    }
+                    break;
+            }
+        }
+
+    }
+
+    public static Player createPlayer(String name, int id){
+        return new Player(name, id);
+    }
+
+    public static Armor createArmor(String name, int defense){
+        return new Armor(name, defense);
+    }
+
+    public static Weapon createWeapon(String name, int damage){
+        return new Weapon(name, damage);
+    }
+
+    public static void showStats(Player player){
         player.showStats();
-        player2.showStats();
-        
+    }
 
-        //SENJATA
-        Weapon pistol = new Weapon("pistol", 99);
-        Weapon pisau = new Weapon("50", 60);
+    public static void addArmor(Player player, Armor armor){
+        player.equipArmor(armor);
+    }
 
-        // ARMOR
-        Armor zirahBesi = new Armor("Zirah Besi", 1000);
-        Armor zirahBerlian = new Armor("Zirah Berlian", 999999);
-
-        // PLAYER MANAGE
-        player.equipArmor(zirahBerlian);
-        player.showStats();
-        player.equipWeapon(pisau);
-        player.showStats();
-
-        player2.equipArmor(zirahBesi);
-        player2.showStats();
-        player2.equipWeapon(pistol);
-        player2.showStats();
+    public static void addWeapon(Player player, Weapon weapon){
+        player.equipWeapon(weapon);
     }
 
 }
